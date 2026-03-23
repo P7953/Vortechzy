@@ -61,23 +61,14 @@ export default function Preloader({ onComplete }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      exit={{ pointerEvents: "none" }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--light-surface,white)]"
+      exit={{ opacity: 0, pointerEvents: "none", transition: { duration: 0.8, ease: "easeInOut" } }}
     >
-      {/* Background that fades out */}
       <motion.div 
-        className="absolute inset-0 bg-white"
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
-      />
-
-      <motion.div 
-        layoutId="brand-container" 
         className="flex items-center gap-2 relative z-10"
       >
         {/* Logo Container */}
         <motion.div
-          layoutId="brand-icon"
           initial={{ x: -120, opacity: 0 }}
           variants={{
             logoIn: {
@@ -134,7 +125,6 @@ export default function Preloader({ onComplete }) {
 
         {/* Text Reveal */}
         <motion.div
-          layoutId="brand-text"
           variants={textContainer}
           initial="hidden"
           animate={textCtrls}
