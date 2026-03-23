@@ -7,27 +7,25 @@ import { Cinzel, Inter } from "next/font/google";
 const cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 const inter  = Inter({ subsets: ["latin"], weight: ["300", "400", "500", "600"] });
 
-/* ─── vortechzy palette ─────────────────────────────────── */
+/* ─── vortechzy light palette (using globals) ─────────────────── */
 const T = {
-  bg:        "#0F1013",
-  text:      "#EFF1F3",
-  textMuted: "rgba(239,241,243,0.52)",
-  steel:     "#9FB0C8",
-  cta1:      "#D9DDE2",
-  cta2:      "#A6B1C6",
-  glow:      "#DDE9FF",
-  border:    "rgba(255,255,255,0.07)",
-  borderHov: "rgba(221,233,255,0.18)",
-  card:      "rgba(255,255,255,0.025)",
+  bg:        "var(--light-surface)",
+  text:      "var(--text-dark)",
+  textMuted: "rgba(14, 17, 20, 0.6)",
+  steel:     "var(--pro)",
+  cta1:      "var(--text-dark)",
+  cta2:      "var(--bg)",
+  glow:      "var(--glow)",
+  border:    "rgba(14, 17, 20, 0.08)",
+  borderHov: "rgba(14, 17, 20, 0.15)",
+  card:      "rgba(14, 17, 20, 0.03)",
 };
 
 const NAV_LINKS = [
-  { label: "Portfolio",        href: "#", hasPlus: true  },
-  { label: "Services",         href: "#", hasPlus: true  },
   { label: "Technologies",     href: "#", hasPlus: true  },
+  { label: "Services",         href: "#", hasPlus: true  },
+  { label: "Our Work",         href: "#", hasPlus: false },
   { label: "About",            href: "#", hasPlus: false },
-  { label: "Awards & Reviews", href: "#", hasPlus: false },
-  { label: "Blog",             href: "#", hasPlus: false },
   { label: "Contact Us",       href: "#", hasPlus: false },
 ];
 
@@ -107,14 +105,14 @@ function MobileMenu({ open, onClose }) {
           style={{
             position: "fixed",
             top: "80px", left: "16px", right: "16px",
-            background: "rgba(15,16,19,0.95)",
+            background: "var(--light-surface)",
             backdropFilter: "blur(28px) saturate(160%)",
             WebkitBackdropFilter: "blur(28px) saturate(160%)",
             border: `1px solid ${T.border}`,
             borderRadius: "20px",
             padding: "12px 0",
             zIndex: 99,
-            boxShadow: "0 24px 60px rgba(0,0,0,0.6)",
+            boxShadow: "0 24px 60px rgba(0,0,0,0.15)",
           }}
         >
           {NAV_LINKS.map((l) => (
@@ -158,16 +156,9 @@ function MobileMenu({ open, onClose }) {
 }
 
 export default function Navbar() {
-  const { scrollY } = useScroll();
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [ctaHov,   setCtaHov]   = useState(false);
   const [backHov,  setBackHov]  = useState(false);
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    // Only switch between flat ↔ pill. Never hide the navbar.
-    setScrolled(latest > 60);
-  });
 
   useEffect(() => {
     const onResize = () => { if (window.innerWidth >= 900) setMenuOpen(false); };
@@ -181,46 +172,28 @@ export default function Navbar() {
         style={{
           position: "fixed",
           zIndex: 100,
-          /* Pill offsets animate via CSS transition */
-          top:    scrolled ? "14px"  : "0px",
-          left:   scrolled ? "24px"  : "0px",
-          right:  scrolled ? "24px"  : "0px",
-          height: scrolled ? "52px"  : "72px",
+          /* Fixed pill offsets */
+          top:    "14px",
+          left:   "24px",
+          right:  "24px",
+          height: "64px",
 
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: scrolled ? "0 16px" : "0 40px",
+          padding: "0 24px",
 
-          borderRadius: scrolled ? "100px" : "0px",
+          borderRadius: "100px",
 
-          /* FIX 2: much more transparent — 0.35 opacity in pill mode */
-          background: scrolled
-            ? "rgba(15,16,19,0.38)"
-            : "transparent",
+          /* Clear background so text is visible on dark root body */
+          background: "rgba(251, 252, 253, 0.85)",
 
-          backdropFilter:       scrolled ? "blur(20px) saturate(180%)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(20px) saturate(180%)" : "none",
+          backdropFilter:       "blur(20px) saturate(180%)",
+          WebkitBackdropFilter: "blur(20px) saturate(180%)",
 
-          border: scrolled
-            ? "1px solid rgba(255,255,255,0.07)"
-            : "1px solid transparent",
+          border: "1px solid rgba(0,0,0,0.08)",
 
-          boxShadow: scrolled
-            ? "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)"
-            : "none",
-
-          transition: [
-            "top 0.45s cubic-bezier(0.25,0.1,0.25,1)",
-            "left 0.45s cubic-bezier(0.25,0.1,0.25,1)",
-            "right 0.45s cubic-bezier(0.25,0.1,0.25,1)",
-            "height 0.45s cubic-bezier(0.25,0.1,0.25,1)",
-            "padding 0.45s cubic-bezier(0.25,0.1,0.25,1)",
-            "border-radius 0.45s cubic-bezier(0.25,0.1,0.25,1)",
-            "background 0.4s ease",
-            "border-color 0.4s ease",
-            "box-shadow 0.4s ease",
-          ].join(", "),
+          boxShadow: "0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5)",
         }}
       >
         {/* ── Logo ── */}
@@ -228,33 +201,27 @@ export default function Navbar() {
           href="/"
           style={{
             fontFamily: cinzel.style.fontFamily,
-            fontSize: scrolled ? "15px" : "18px",
+            fontSize: "18px",
             fontWeight: 700,
             letterSpacing: "0.06em",
             color: T.text,
             textDecoration: "none",
             display: "flex",
             alignItems: "center",
-            gap: "9px",
+            gap: "12px",
             flexShrink: 0,
-            transition: "font-size 0.45s ease",
           }}
         >
-          <span style={{
-            width:  scrolled ? "24px" : "30px",
-            height: scrolled ? "24px" : "30px",
-            borderRadius: "50%",
-            border: "1px solid rgba(221,233,255,0.18)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0,
-            transition: "width 0.45s ease, height 0.45s ease",
-          }}>
-            <span style={{
-              width: "7px", height: "7px", borderRadius: "50%",
-              background: `radial-gradient(circle, ${T.glow} 0%, ${T.steel} 100%)`,
-              boxShadow: `0 0 8px ${T.glow}55`,
-            }} />
-          </span>
+          <img
+            src="/logo.png"
+            alt="vortechzy logo"
+            style={{
+              width:  "48px",
+              height: "48px",
+              objectFit: "contain",
+              flexShrink: 0,
+            }}
+          />
           vortechzy
         </a>
 
@@ -264,8 +231,7 @@ export default function Navbar() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: scrolled ? "16px" : "26px",
-            transition: "gap 0.45s ease",
+            gap: "24px",
           }}
         >
           {NAV_LINKS.map((l) => (
@@ -274,7 +240,7 @@ export default function Navbar() {
               label={l.label}
               href={l.href}
               hasPlus={l.hasPlus}
-              compact={scrolled}
+              compact={false}
             />
           ))}
         </nav>
@@ -287,7 +253,7 @@ export default function Navbar() {
             onMouseLeave={() => setCtaHov(false)}
             style={{
               fontFamily: inter.style.fontFamily,
-              fontSize: scrolled ? "11px" : "12px",
+              fontSize: "12px",
               fontWeight: 700,
               letterSpacing: "0.07em",
               textTransform: "uppercase",
@@ -295,13 +261,13 @@ export default function Navbar() {
               background: ctaHov
                 ? `linear-gradient(90deg, ${T.glow}, ${T.cta1})`
                 : `linear-gradient(90deg, ${T.cta1}, ${T.cta2})`,
-              padding: scrolled ? "8px 16px" : "10px 24px",
+              padding: "10px 24px",
               borderRadius: "100px",
               textDecoration: "none",
               whiteSpace: "nowrap",
-              boxShadow: ctaHov ? "0 4px 20px rgba(221,233,255,0.2)" : "none",
+              boxShadow: ctaHov ? "0 4px 20px rgba(0,0,0,0.15)" : "none",
               transform: ctaHov ? "translateY(-1px)" : "translateY(0)",
-              transition: "all 0.22s ease, padding 0.45s ease, font-size 0.45s ease",
+              transition: "all 0.22s ease",
             }}
           >
             Let's talk
@@ -312,15 +278,15 @@ export default function Navbar() {
             onMouseLeave={() => setBackHov(false)}
             aria-label="Back"
             style={{
-              width:  scrolled ? "34px" : "42px",
-              height: scrolled ? "34px" : "42px",
+              width:  "42px",
+              height: "42px",
               borderRadius: "50%",
               border: `1px solid ${backHov ? T.borderHov : T.border}`,
-              background: backHov ? "rgba(255,255,255,0.06)" : T.card,
+              background: backHov ? "rgba(0,0,0,0.06)" : T.card,
               color: backHov ? T.text : T.textMuted,
               display: "flex", alignItems: "center", justifyContent: "center",
               cursor: "pointer", flexShrink: 0,
-              transition: "all 0.45s ease",
+              transition: "all 0.22s ease",
             }}
           >
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none">

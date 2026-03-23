@@ -1,4 +1,5 @@
 import "./globals.css";
+import SmoothScroll from "../components/SmoothScroll";
 
 export const metadata = {
   title: "Tech Startup",
@@ -8,7 +9,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }
