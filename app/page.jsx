@@ -6,6 +6,8 @@ import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
+import Projects from "@/components/Projects";
+
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,10 +17,10 @@ export default function Home() {
       <AnimatePresence mode="wait">
         {isLoading && <Preloader key="preloader" onComplete={() => setIsLoading(false)} />}
       </AnimatePresence>
-      
+
       {!isLoading && <Navbar />}
-      
-      <motion.div 
+
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: isLoading ? 0 : 1, y: isLoading ? 20 : 0 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
@@ -26,6 +28,7 @@ export default function Home() {
       >
         <Hero isReady={!isLoading} />
         <Features />
+        <Projects />
       </motion.div>
     </main>
   );
