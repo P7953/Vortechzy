@@ -3,22 +3,24 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { Cinzel, Inter } from "next/font/google";
+import Image from "next/image";
+import Link from "next/link";
 
 const cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 const inter = Inter({ subsets: ["latin"], weight: ["300", "400", "500", "600"] });
 
-/* ─── vortechzy light palette (using globals) ─────────────────── */
+/* ─── vortechzy dark glassmorphism palette ─────────────────── */
 const T = {
-  bg: "var(--light-surface)",
-  text: "var(--text-dark)",
-  textMuted: "rgba(14, 17, 20, 0.6)",
+  bg: "transparent",
+  text: "var(--text-light)",
+  textMuted: "rgba(255, 255, 255, 0.6)",
   steel: "var(--pro)",
-  cta1: "var(--text-dark)",
-  cta2: "var(--bg)",
+  cta1: "var(--text-light)",
+  cta2: "var(--glow)",
   glow: "var(--glow)",
-  border: "rgba(14, 17, 20, 0.08)",
-  borderHov: "rgba(14, 17, 20, 0.15)",
-  card: "rgba(14, 17, 20, 0.03)",
+  border: "rgba(255, 255, 255, 0.08)",
+  borderHov: "rgba(255, 255, 255, 0.15)",
+  card: "rgba(255, 255, 255, 0.03)",
 };
 
 const NAV_LINKS = [
@@ -32,7 +34,7 @@ const NAV_LINKS = [
 function NavLink({ label, href, hasPlus, compact }) {
   const [hov, setHov] = useState(false);
   return (
-    <a
+    <Link
       href={href}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
@@ -68,7 +70,7 @@ function NavLink({ label, href, hasPlus, compact }) {
           transformOrigin: "left",
         }}
       />
-    </a>
+    </Link>
   );
 }
 
@@ -105,7 +107,7 @@ function MobileMenu({ open, onClose }) {
           style={{
             position: "fixed",
             top: "80px", left: "16px", right: "16px",
-            background: "var(--light-surface)",
+            background: "rgba(10, 12, 16, 0.85)",
             backdropFilter: "blur(28px) saturate(160%)",
             WebkitBackdropFilter: "blur(28px) saturate(160%)",
             border: `1px solid ${T.border}`,
@@ -116,7 +118,7 @@ function MobileMenu({ open, onClose }) {
           }}
         >
           {NAV_LINKS.map((l) => (
-            <a
+            <Link
               key={l.label}
               href={l.href}
               onClick={onClose}
@@ -134,20 +136,20 @@ function MobileMenu({ open, onClose }) {
               onMouseLeave={(e) => (e.currentTarget.style.color = T.textMuted)}
             >
               {l.label}{l.hasPlus ? " +" : ""}
-            </a>
+            </Link>
           ))}
           <div style={{ padding: "16px 24px 4px" }}>
-            <a href="#" style={{
+            <Link href="/contact_us" style={{
               display: "block", textAlign: "center",
               fontFamily: inter.style.fontFamily,
               fontSize: "13px", fontWeight: 700,
               letterSpacing: "0.06em", textTransform: "uppercase",
-              color: T.bg,
+              color: "var(--bg)",
               background: `linear-gradient(90deg, ${T.cta1}, ${T.cta2})`,
               padding: "12px 16px", borderRadius: "100px", textDecoration: "none",
             }}>
               Let's talk
-            </a>
+            </Link>
           </div>
         </motion.div>
       )}
@@ -185,19 +187,19 @@ export default function Navbar() {
 
           borderRadius: "100px",
 
-          /* Clear background so text is visible on dark root body */
-          background: "rgba(251, 252, 253, 0.85)",
+          /* Dark glass background */
+          background: "rgba(10, 12, 16, 0.65)",
 
           backdropFilter: "blur(20px) saturate(180%)",
           WebkitBackdropFilter: "blur(20px) saturate(180%)",
 
-          border: "1px solid rgba(0,0,0,0.08)",
+          border: "1px solid rgba(255,255,255,0.08)",
 
-          boxShadow: "0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.05)",
         }}
       >
         {/* ── Logo ── */}
-        <a
+        <Link
           href="/"
           style={{
             fontFamily: cinzel.style.fontFamily,
@@ -212,18 +214,19 @@ export default function Navbar() {
             flexShrink: 0,
           }}
         >
-          <img
+          <Image
             src="/logo.png"
             alt="vortechzy logo"
+            width={48}
+            height={48}
+            priority
             style={{
-              width: "48px",
-              height: "48px",
               objectFit: "contain",
               flexShrink: 0,
             }}
           />
           vortechzy
-        </a>
+        </Link>
 
         {/* ── Desktop links ── */}
         <nav
@@ -247,8 +250,8 @@ export default function Navbar() {
 
         {/* ── CTA + back button ── */}
         <div className="nav-cta" style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
-          <a
-            href="#"
+          <Link
+            href="/contact_us"
             onMouseEnter={() => setCtaHov(true)}
             onMouseLeave={() => setCtaHov(false)}
             style={{
@@ -257,7 +260,7 @@ export default function Navbar() {
               fontWeight: 700,
               letterSpacing: "0.07em",
               textTransform: "uppercase",
-              color: T.bg,
+              color: "var(--bg)",
               background: ctaHov
                 ? `linear-gradient(90deg, ${T.glow}, ${T.cta1})`
                 : `linear-gradient(90deg, ${T.cta1}, ${T.cta2})`,
@@ -271,7 +274,7 @@ export default function Navbar() {
             }}
           >
             Let's talk
-          </a>
+          </Link>
 
           <button
             onMouseEnter={() => setBackHov(true)}

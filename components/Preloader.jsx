@@ -3,6 +3,7 @@
 import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import { Cinzel } from "next/font/google";
+import Image from "next/image";
 
 const cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
@@ -61,7 +62,7 @@ export default function Preloader({ onComplete }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--light-surface,white)]"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg)]"
       exit={{ opacity: 0, pointerEvents: "none", transition: { duration: 0.8, ease: "easeInOut" } }}
     >
       <motion.div 
@@ -96,12 +97,15 @@ export default function Preloader({ onComplete }) {
                 }
               }
             }}
-            className="relative w-28 h-28 md:w-36 md:h-36 overflow-hidden rounded-full z-10"
+            className="relative w-36 h-36 md:w-48 md:h-48 rounded-full z-10"
           >
-            <img
+            <Image
               src="/logo.png"
               alt="Vortechzy Logo"
-              className="w-full h-full object-contain relative z-10 scale-[1.35]"
+              width={192}
+              height={192}
+              priority
+              className="w-full h-full object-contain relative z-10"
             />
           </motion.div>
 
@@ -134,7 +138,7 @@ export default function Preloader({ onComplete }) {
             <motion.span
               key={i}
               variants={textChild}
-              className="text-5xl md:text-7xl text-gray-900 font-semibold tracking-wide"
+              className="text-5xl md:text-7xl text-[var(--text-light)] font-semibold tracking-wide"
             >
               {char}
             </motion.span>

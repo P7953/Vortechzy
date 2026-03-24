@@ -19,44 +19,44 @@ export default function WhyChooseUs() {
   const cardsRef = useRef([]);
 
   useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "+=2500",
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1
-      },
+    let mm = gsap.matchMedia(containerRef.current);
+
+    // Desktop
+    mm.add("(min-width: 768px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "+=2500",
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1
+        },
+      });
+
+      tl.to(".heading-text", { opacity: 1, duration: 1, stagger: 0.15, ease: "power2.out" }, "0");
+      tl.to(cardsRef.current[0], { xPercent: -15, duration: 1, ease: "power2.inOut" }, "split")
+        .to(cardsRef.current[2], { xPercent: 15, duration: 1, ease: "power2.inOut" }, "split");
+      tl.to(".card-front", { borderWidth: "1px", borderRadius: "16px", duration: 1, ease: "power2.inOut" }, "split");
+      tl.to(cardsRef.current, { rotateY: 180, duration: 2, stagger: 0.3, ease: "power2.inOut" });
     });
 
-    // Heading reveal from faint to fully solid
-    tl.to(
-      ".heading-text",
-      { opacity: 1, duration: 1, stagger: 0.15, ease: "power2.out" },
-      "0" // start early with the scroll
-    );
+    // Mobile
+    mm.add("(max-width: 767px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: 1,
+        },
+      });
 
-    // Slide apart a bit to create a gap and avoid 3D collisions
-    tl.to(cardsRef.current[0], { xPercent: -15, duration: 1, ease: "power2.inOut" }, "split")
-      .to(cardsRef.current[2], { xPercent: 15, duration: 1, ease: "power2.inOut" }, "split");
-
-    // Reveal borders and fully round corners on split
-    tl.to(".card-front", {
-      borderWidth: "1px",
-      borderRadius: "16px",
-      duration: 1,
-      ease: "power2.inOut"
-    }, "split");
-
-    // Staggered Flip
-    tl.to(cardsRef.current, {
-      rotateY: 180,
-      duration: 2,
-      stagger: 0.3,
-      ease: "power2.inOut",
+      tl.to(".heading-text", { opacity: 1, duration: 1, stagger: 0.15, ease: "power2.out" }, "0");
+      tl.to(cardsRef.current, { rotateY: 180, duration: 2, stagger: 0.5, ease: "power2.inOut" }, "0.5");
     });
-
+    
+    return () => mm.revert();
   }, { scope: containerRef });
 
   const features = [
@@ -83,7 +83,7 @@ export default function WhyChooseUs() {
   return (
     <section
       ref={containerRef}
-      className="relative flex flex-col items-center justify-center w-full h-screen bg-[var(--bg)] overflow-hidden"
+      className="relative flex flex-col items-center justify-center w-full min-h-screen bg-[var(--bg)] overflow-hidden py-24 md:py-0"
     >
       <div className="absolute top-12 left-6 md:top-20 md:left-20 z-10 flex flex-col items-start pointer-events-none">
         <h2 className={`${cinzel.className} text-5xl md:text-6xl lg:text-8xl font-bold flex flex-col gap-2`}>
@@ -102,29 +102,30 @@ export default function WhyChooseUs() {
 
       {/* Cards Stage */}
       <div
-        className="relative self-end flex w-[85vw] md:w-[70vw] lg:w-[55vw] h-[50vh] md:h-[60vh] mt-16 mr-4 md:mr-16 lg:mr-24"
+        className="relative self-end flex flex-col md:flex-row w-[90vw] md:w-[70vw] lg:w-[55vw] h-auto md:h-[60vh] mt-24 md:mt-16 mr-4 md:mr-16 lg:mr-24 gap-8 md:gap-0"
         style={{ perspective: "1500px" }}
       >
         {features.map((feat, i) => (
           <div
             key={i}
             ref={(el) => (cardsRef.current[i] = el)}
-            className="w-1/3 h-full relative"
+            className="w-full md:w-1/3 h-[40vh] md:h-full relative"
             style={{ transformStyle: "preserve-3d" }}
           >
             {/* Front Face (Image Split) */}
             <div
-              className="card-front absolute inset-0 w-full h-full shadow-xl overflow-hidden box-border"
+              className={`card-front absolute inset-0 w-full h-full shadow-xl overflow-hidden box-border border-solid border-white/10
+                rounded-2xl border
+                md:rounded-none md:border-0
+                ${i === 0 ? "md:border-l md:!rounded-l-2xl" : ""}
+                ${i === 2 ? "md:border-r md:!rounded-r-2xl" : ""}
+                bg-[url('/Why.png')] bg-cover bg-center
+                md:bg-[length:300%_100%]
+                ${i === 0 ? "md:bg-[position:0%_50%]" : i === 1 ? "md:bg-[position:50%_50%]" : "md:bg-[position:100%_50%]"}
+              `}
               style={{
-                backgroundImage: "url('/Why.png')",
-                backgroundSize: "300% 100%",
-                backgroundPosition: `${i * 50}% 50%`,
                 WebkitBackfaceVisibility: "hidden",
                 backfaceVisibility: "hidden",
-                borderStyle: "solid",
-                borderColor: "rgba(255,255,255,0.07)",
-                borderWidth: i === 0 ? "0 0 0 1px" : i === 2 ? "0 1px 0 0" : "0px",
-                borderRadius: i === 0 ? "16px 0 0 16px" : i === 2 ? "0 16px 16px 0" : "0px",
               }}
             >
               {/* Subtle overlay to enhance contrast and richness */}
