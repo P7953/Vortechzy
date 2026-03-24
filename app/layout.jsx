@@ -2,8 +2,11 @@ import "./globals.css";
 import SmoothScroll from "../components/SmoothScroll";
 
 export const metadata = {
-  title: "Tech Startup",
+  title: "Vortechzy",
   description: "A new capability for your jobs-to-be-done",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }) {
