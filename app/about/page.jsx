@@ -11,6 +11,7 @@ import { motion, useInView } from "framer-motion";
 import { Cinzel, Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import About, { SECTION_PX, SECTION_PY, SECTION_PYB } from "@/components/About";
+import Footer from "@/components/Footer";
 import { T, EASE, fadeUp } from "@/components/Tokens.js";
 import {
     SectionLabel, SectionHeader, Divider,
@@ -335,6 +336,7 @@ export default function AboutPage() {
           4. FOOTER CTA STRIP
       ══════════════════════════════════════════ */}
             <FooterCTA />
+            <Footer />
 
             <style>{`
         @media (max-width: 900px) {
@@ -398,7 +400,7 @@ function FooterCTA() {
 
                     {/* CTA button */}
                     <a
-                        href="/contact"
+                        href="/contact_us"
                         onMouseEnter={() => setHov(true)}
                         onMouseLeave={() => setHov(false)}
                         style={{

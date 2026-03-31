@@ -85,6 +85,7 @@ export default function Technologies() {
 
   return (
     <section 
+      id="technologies"
       ref={containerRef}
       className="relative flex flex-col items-center justify-center w-full min-h-screen bg-[var(--bg)] overflow-hidden py-24 px-6"
     >

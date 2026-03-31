@@ -258,7 +258,7 @@ export default function Services() {
   const headInView = useInView(headRef, { once: true, margin: "-60px" });
 
   return (
-    <section style={{
+    <section id="services" style={{
       position: "relative",
       background: T.bg2,
       padding: "130px 0 150px",

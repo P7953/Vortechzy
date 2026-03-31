@@ -24,9 +24,9 @@ const T = {
 };
 
 const NAV_LINKS = [
-  { label: "Technologies", href: "#", hasPlus: true },
-  { label: "Services", href: "#", hasPlus: true },
-  { label: "Our Work", href: "#", hasPlus: false },
+  { label: "Technologies", href: "/#technologies", hasPlus: true },
+  { label: "Services", href: "/#services", hasPlus: true },
+  { label: "Our Work", href: "/#work", hasPlus: false },
   { label: "About", href: "/about", hasPlus: false },
   { label: "Contact Us", href: "/contact_us", hasPlus: false },
 ];

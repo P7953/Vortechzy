@@ -369,7 +369,7 @@ export default function Projects() {
   const headInView = useInView(headRef, { once: true, margin: "-60px" });
 
   return (
-    <section style={{
+    <section id="work" style={{
       position: "relative",
       background: T.bg,
       padding: "130px 0 150px",

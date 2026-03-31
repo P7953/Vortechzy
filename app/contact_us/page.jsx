@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
 export default function AboutPage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -13,7 +14,7 @@ export default function AboutPage() {
         <main className="min-h-screen bg-[var(--bg)] text-[var(--text-light)] selection:bg-[var(--pro)] selection:text-[var(--bg)]">
             <Navbar />
             <Contact />
-
+            <Footer />
         </main>
     );
 }

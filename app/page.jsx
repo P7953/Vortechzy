@@ -9,7 +9,7 @@ import Features from "@/components/Features";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Technologies from "@/components/Technologies";
 import Projects from "@/components/Projects";
-
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +39,7 @@ export default function Home() {
         <WhyChooseUs />
         <Technologies />
         <Projects />
+        <Footer />
       </motion.div>
     </main>
   );

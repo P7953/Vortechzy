@@ -25,19 +25,11 @@ const T = {
 
 /* ── Contact info ── replace with real details ── */
 const CONTACT_INFO = {
-  phone: "+91 98765 43210",
-  email: "hello@vortechzy.com",
-  support: "support@vortechzy.com",
+  phone: "+91 9175177953",
+  email: "vortechzy@gmail.com",
   address: "Pune, Maharashtra, India",
 };
 
-const SOCIAL_LINKS = [
-  { name: "Instagram", handle: "@vortechzy", url: "#", icon: "instagram" },
-  { name: "LinkedIn", handle: "vortechzy", url: "#", icon: "linkedin" },
-  { name: "Twitter/X", handle: "@vortechzy", url: "#", icon: "twitter" },
-  { name: "GitHub", handle: "vortechzy", url: "#", icon: "github" },
-  { name: "Behance", handle: "vortechzy", url: "#", icon: "behance" },
-];
 
 const SERVICES = [
   "Website Development", "Mobile App", "SaaS Platform",
@@ -204,9 +196,35 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending");
-    // Replace with your actual form submission logic (e.g. Resend, Formspree, API route)
-    await new Promise(r => setTimeout(r, 1400));
-    setStatus("sent");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          // TODO: Replace with your actual Access Key from https://web3forms.com/
+          access_key: "fb6ef2e1-032a-4fd9-9803-f05437da66ab",
+          ...form
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setStatus("sent");
+        setForm({ name: "", email: "", company: "", service: "", budget: "", message: "" });
+      } else {
+        console.error("Form submission failed:", result);
+        setStatus("idle"); // Revert so user can try again
+        alert("Something went wrong. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setStatus("idle");
+      alert("Something went wrong. Please try again later.");
+    }
   };
 
   const fadeUp = {
@@ -459,11 +477,6 @@ export default function Contact() {
                 href: `mailto:${CONTACT_INFO.email}`,
               },
               {
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>,
-                label: "Support", value: CONTACT_INFO.support, sub: "For existing clients",
-                href: `mailto:${CONTACT_INFO.support}`,
-              },
-              {
                 icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>,
                 label: "Location", value: CONTACT_INFO.address, sub: "Remote-first, global clients",
                 href: null,
@@ -479,55 +492,6 @@ export default function Contact() {
               </motion.div>
             ))}
 
-            {/* Social media */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              style={{
-                background: T.card, border: `1px solid ${T.border}`,
-                borderRadius: "16px", padding: "28px 32px",
-              }}
-            >
-              <div style={{
-                fontFamily: inter.style.fontFamily, fontSize: "10.5px", fontWeight: 700,
-                letterSpacing: "0.12em", textTransform: "uppercase",
-                color: T.textDim, marginBottom: "18px",
-              }}>Follow us</div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                {SOCIAL_LINKS.map((s, i) => {
-                  const [hov, setHov] = useState(false);
-                  return (
-                    <a key={i} href={s.url}
-                      onMouseEnter={() => setHov(true)}
-                      onMouseLeave={() => setHov(false)}
-                      style={{
-                        display: "flex", alignItems: "center", justifyContent: "space-between",
-                        padding: "10px 14px", borderRadius: "10px",
-                        background: hov ? "rgba(255,255,255,0.04)" : "transparent",
-                        textDecoration: "none", transition: "background 0.2s",
-                      }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                        <span style={{ color: hov ? T.glow : T.steel, transition: "color 0.2s" }}>
-                          <Icon type={s.icon} size={16} />
-                        </span>
-                        <span style={{
-                          fontFamily: inter.style.fontFamily, fontSize: "13px", fontWeight: 500,
-                          color: hov ? T.text : T.textMuted, transition: "color 0.2s",
-                        }}>{s.name}</span>
-                      </div>
-                      <span style={{
-                        fontFamily: inter.style.fontFamily, fontSize: "12px", fontWeight: 400,
-                        color: T.textDim,
-                      }}>{s.handle}</span>
-                    </a>
-                  );
-                })}
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>
