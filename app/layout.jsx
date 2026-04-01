@@ -4,7 +4,7 @@ import SmoothScroll from "../components/SmoothScroll";
 export const metadata = {
   metadataBase: new URL("https://vortechzy.com"), // Placeholder URL, can be updated
   title: {
-    default: "Vortechzy | Modern Digital Products & Solutions",
+    default: "Vortechzy",
     template: "%s | Vortechzy",
   },
   description: "Vortechzy pioneers the future of digital experiences with cutting-edge technology and sophisticated design. A new capability for your jobs-to-be-done.",
@@ -13,7 +13,7 @@ export const metadata = {
   creator: "Vortechzy",
   publisher: "Vortechzy",
   openGraph: {
-    title: "Vortechzy | Modern Digital Products & Solutions",
+    title: "Vortechzy",
     description: "Vortechzy pioneers the future of digital experiences with cutting-edge technology and sophisticated design.",
     url: "https://vortechzy.com",
     siteName: "Vortechzy",
@@ -30,7 +30,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vortechzy | Modern Digital Products & Solutions",
+    title: "Vortechzy",
     description: "Vortechzy pioneers the future of digital experiences with cutting-edge technology and sophisticated design.",
     images: ["/logo.png"],
     creator: "@vortechzy",

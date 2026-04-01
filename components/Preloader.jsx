@@ -62,10 +62,11 @@ export default function Preloader({ onComplete }) {
 
   return (
     <motion.div
+      aria-hidden="true"
       className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg)]"
       exit={{ opacity: 0, pointerEvents: "none", transition: { duration: 0.8, ease: "easeInOut" } }}
     >
-      <motion.div 
+      <motion.div
         className="flex items-center gap-2 relative z-10"
       >
         {/* Logo Container */}
